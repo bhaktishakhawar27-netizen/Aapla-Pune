@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Aapla Pravas</title>
+
+    <link rel="stylesheet"
+        href="style.css">
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+
+    <!-- SPLASH SCREEN -->
+
+    <div id="splash"
+        class="splash active">
+
+        <div class="splash-logo">
+            🚇
+        </div>
+
+        <h1>AAPLA PRAVAS</h1>
+
+        <p>
+            Pune Public Transport
+        </p>
+
+    </div>
+
+
+
+    <!-- MENU OVERLAY -->
+
+    <div id="menuOverlay"
+        class="menu-overlay"
+        onclick="closeMenu()">
+    </div>
+
+
+
+    <!-- SIDE MENU -->
+
+    <aside id="sideMenu"
+        class="side-menu">
+
+        <div class="menu-header">
+
+            <div>
+                <h2>🚇 Aapla Pravas</h2>
+
+                <p>
+                    Pune Smart Transport
+                </p>
+            </div>
+
+            <button onclick="closeMenu()">
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="menu-links">
+
+            <button onclick="showScreen('home')">
+                🏠 Home
+            </button>
+
+            <button onclick="showScreen('journey')">
+                🗺️ Journey Options
+            </button>
+
+            <button onclick="openStations()">
+                📍 Route Stops
+            </button>
+
+            <button onclick="openTracking()">
+                📡 Live Tracking
+            </button>
+
+            <button onclick="openCrowdPrediction()">
+                👥 Crowd Prediction
+            </button>
+
+            <button onclick="showScreen('tickets')">
+                🎫 My Tickets
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ================= HOME SCREEN ================= -->
+
+    <section id="home"
+        class="screen active">
+
+        <header class="top-header">
+
+            <button class="menu-button"
+                onclick="toggleMenu()">
+                ☰
+            </button>
+
+
+            <div class="header-title">
+
+                <h2>AAPLA PRAVAS</h2>
+
+                <small>
+                    Pune Public Transport
+                </small>
+
+            </div>
+
+
+            <button class="profile-button">
+                👤
+            </button>
+
+        </header>
+
+
+
+        <main class="home-content">
+
+
+            <!-- HERO -->
+
+            <div class="hero-section">
+
+                <span class="hero-tag">
+                    SMART JOURNEY PLANNER
+                </span>
+
+                <h1>
+                    Plan Your Journey
+                </h1>
+
+                <p>
+                    Bus + Metro in one simple app
+                </p>
+
+            </div>
+
+
+
+            <!-- JOURNEY CARD -->
+
+            <div class="journey-card">
+
+
+                <h3>
+                    📍 Where do you want to go?
+                </h3>
+
+
+                <!-- FROM -->
+
+                <div class="location-wrapper">
+
+                    <label>
+                        FROM
+                    </label>
+
+                    <div class="location-input">
+
+                        <span>📍</span>
+
+                        <input
+                            type="text"
+                            id="from"
+                            placeholder="Enter starting location"
+                            oninput="showSuggestions('from')"
+                            onfocus="showSuggestions('from')">
+
+                    </div>
+
+
+                    <div id="fromSuggestions"
+                        class="suggestions">
+                    </div>
+
+                </div>
+
+
+
+                <!-- SWAP -->
+
+                <div class="swap-container">
+
+                    <button
+                        onclick="swapLocations()">
+
+                        ⇅
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- TO -->
+
+                <div class="location-wrapper">
+
+                    <label>
+                        TO
+                    </label>
+
+                    <div class="location-input">
+
+                        <span>📍</span>
+
+                        <input
+                            type="text"
+                            id="to"
+                            placeholder="Enter destination"
+                            oninput="showSuggestions('to')"
+                            onfocus="showSuggestions('to')">
+
+                    </div>
+
+
+                    <div id="toSuggestions"
+                        class="suggestions">
+                    </div>
+
+                </div>
+
+
+
+                <!-- DATE & TIME -->
+
+                <div class="date-time-grid">
+
+                    <div>
+
+                        <label>
+                            JOURNEY DATE
+                        </label>
+
+                        <input
+                            type="date"
+                            id="journeyDate">
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            JOURNEY TIME
+                        </label>
+
+                        <input
+                            type="time"
+                            id="journeyTime">
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- QUICK TIME -->
+
+                <div class="quick-times">
+
+                    <button
+                        class="quick-time active"
+                        onclick="setJourneyTime('now', this)">
+
+                        Leave Now
+
+                    </button>
+
+
+                    <button
+                        class="quick-time"
+                        onclick="setJourneyTime('later', this)">
+
+                        Later
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- TRANSPORT -->
+
+                <h4 class="section-label">
+                    TRAVEL OPTIONS
+                </h4>
+
+
+                <div class="transport-options">
+
+
+                    <button
+                        id="autoMode"
+                        class="transport-option active"
+                        onclick="selectMode('auto')">
+
+                        ✨
+
+                        <span>
+                            Smart
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        id="metroMode"
+                        class="transport-option"
+                        onclick="selectMode('metro')">
+
+                        🚇
+
+                        <span>
+                            Metro
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        id="busMode"
+                        class="transport-option"
+                        onclick="selectMode('bus')">
+
+                        🚌
+
+                        <span>
+                            Bus
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- PLAN BUTTON -->
+
+                <button
+                    class="plan-button"
+                    onclick="planJourney()">
+
+                    🔎 Find My Route
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- RECENT -->
+
+            <div class="recent-section">
+
+                <h3>
+                    🕘 Recent Journeys
+                </h3>
+
+                <div id="recentJourneys">
+                </div>
+
+            </div>
+
+
+        </main>
+
+    </section>
+
+
+
+    <!-- ================= JOURNEY SCREEN ================= -->
+
+    <section id="journey"
+        class="screen">
+
+        <header class="top-header">
+
+            <button class="back-button"
+                onclick="showScreen('home')">
+                ←
+            </button>
+
+            <div class="header-title">
+
+                <h2>Route Options</h2>
+
+            </div>
+
+            <button class="profile-button">
+                👤
+            </button>
+
+        </header>
+
+
+        <main class="screen-content">
+
+
+            <!-- ROUTE PATH -->
+
+            <div class="route-path-card">
+
+                <div>
+
+                    <small>FROM</small>
+
+                    <strong id="routeFrom">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="route-arrow">
+                    ↓
+                </div>
+
+
+                <div>
+
+                    <small>TO</small>
+
+                    <strong id="routeTo">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FILTERS -->
+
+            <div class="filters">
+
+                <button
+                    class="filter-button active"
+                    onclick="applyFilter('fastest', this)">
+
+                    ⚡ Fastest
+
+                </button>
+
+
+                <button
+                    class="filter-button"
+                    onclick="applyFilter('cheapest', this)">
+
+                    ₹ Cheapest
+
+                </button>
+
+
+                <button
+                    class="filter-button"
+                    onclick="applyFilter('crowd', this)">
+
+                    👥 Less Crowd
+
+                </button>
+
+
+                <button
+                    class="filter-button"
+                    onclick="applyFilter('eco', this)">
+
+                    🌱 Eco
+
+                </button>
+
+            </div>
+
+
+
+            <!-- RECOMMENDATION -->
+
+            <div class="recommendation-card">
+
+                <span>
+                    ✨ SUGGESTED ROUTE
+                </span>
+
+                <h2 id="recommendationTitle">
+                    -
+                </h2>
+
+                <p id="recommendationDescription">
+                    -
+                </p>
+
+
+                <div class="recommendation-data">
+
+                    <div>
+
+                        <small>TIME</small>
+
+                        <strong id="recommendationTime">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>FARE</small>
+
+                        <strong id="recommendationFare">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>CROWD</small>
+
+                        <strong id="recommendationCrowd">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ROUTES -->
+
+            <div id="routesContainer">
+            </div>
+
+
+
+            <!-- ALERT -->
+
+            <div id="journeyAlert"
+                class="journey-alert">
+
+                <div class="alert-icon">
+                    🔔
+                </div>
+
+                <div>
+
+                    <strong>
+                        Journey Update
+                    </strong>
+
+                    <p>
+                        Select a route to continue.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- COMPARISON -->
+
+            <h3 class="comparison-title">
+                Compare Routes
+            </h3>
+
+            <div id="comparisonContainer"
+                class="comparison-container">
+            </div>
+
+
+        </main>
+
+    </section>
+
+
+
+    <!-- ================= STATIONS ================= -->
+
+    <section id="stations"
+        class="screen">
+
+        <header class="top-header">
+
+            <button class="back-button"
+                onclick="showScreen('journey')">
+                ←
+            </button>
+
+            <div class="header-title">
+
+                <h2>Route Stops</h2>
+
+            </div>
+
+        </header>
+
+
+        <main class="screen-content">
+
+            <div class="station-summary">
+
+                <h2 id="stationSummaryTitle">
+                    -
+                </h2>
+
+                <p id="stationSummaryText">
+                    -
+                </p>
+
+            </div>
+
+
+            <div id="stationList"
+                class="station-list">
+            </div>
+
+        </main>
+
+    </section>
+
+
+
+    <!-- ================= TRACKING ================= -->
+
+    <section id="tracking"
+        class="screen">
+
+        <header class="top-header">
+
+            <button class="back-button"
+                onclick="showScreen('journey')">
+                ←
+            </button>
+
+            <div class="header-title">
+
+                <h2>Live Tracking</h2>
+
+            </div>
+
+        </header>
+
+
+        <main class="screen-content">
+
+            <div class="map-placeholder">
+
+                <div class="map-grid">
+
+                    <div class="map-road road1"></div>
+
+                    <div class="map-road road2"></div>
+
+                    <div class="map-road road3"></div>
+
+                </div>
+
+
+                <div class="map-marker start">
+                    📍
+                </div>
+
+                <div class="vehicle-marker">
+                    🚌
+                </div>
+
+                <div class="map-marker end">
+                    📍
+                </div>
+
+            </div>
+
+
+
+            <div class="tracking-card">
+
+                <h2 id="trackingVehicle">
+                    -
+                </h2>
+
+                <p id="trackingRoute">
+                    -
+                </p>
+
+
+                <div class="eta-box">
+
+                    <span>
+                        ARRIVING IN
+                    </span>
+
+                    <strong id="trackingETA">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </section>
+
+
+
+    <!-- ================= CROWD ================= -->
+
+    <section id="crowd"
+        class="screen">
+
+        <header class="top-header">
+
+            <button class="back-button"
+                onclick="showScreen('journey')">
+                ←
+            </button>
+
+            <div class="header-title">
+
+                <h2>Crowd Prediction</h2>
+
+            </div>
+
+        </header>
+
+
+        <main class="screen-content">
+
+            <div class="crowd-card">
+
+                <h2 id="crowdRouteName">
+                    -
+                </h2>
+
+
+                <div class="crowd-circle">
+
+                    <div class="crowd-inner">
+
+                        <strong id="crowdPercentage">
+                            0%
+                        </strong>
+
+                        <span>
+                            Expected
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <h2 id="crowdStatus">
+                    -
+                </h2>
+
+                <p id="crowdPercentageDetails">
+                    -
+                </p>
+
+            </div>
+
+        </main>
+
+    </section>
+
+
+
+    <!-- ================= CONFIRM TICKET ================= -->
+
+    <section id="confirmTicket"
+        class="screen">
+
+        <header class="top-header">
+
+            <button class="back-button"
+                onclick="showScreen('journey')">
+                ←
+            </button>
+
+            <div class="header-title">
+
+                <h2>Confirm Ticket</h2>
+
+            </div>
+
+        </header>
+
+
+        <main class="screen-content">
+
+            <div class="ticket-confirm-card">
+
+
+                <div class="confirm-route">
+
+                    <strong id="confirmFrom">
+                        -
+                    </strong>
+
+                    <span>
+                        ↓
+                    </span>
+
+                    <strong id="confirmTo">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="confirm-details">
+
+                    <p>
+
+                        <span>Mode</span>
+
+                        <strong id="confirmMode">
+                            -
+                        </strong>
+
+                    </p>
+
+
+                    <p>
+
+                        <span>Vehicle</span>
+
+                        <strong id="confirmVehicle">
+                            -
+                        </strong>
+
+                    </p>
+
+
+                    <p>
+
+                        <span>Travel Time</span>
+
+                        <strong id="confirmTime">
+                            -
+                        </strong>
+
+                    </p>
+
+
+                    <p>
+
+                        <span>Total Fare</span>
+
+                        <strong id="confirmFare">
+                            -
+                        </strong>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PAYMENT -->
+
+            <h3 class="payment-title">
+                Select Payment Method
+            </h3>
+
+
+            <button
+                id="upiPayment"
+                class="payment-option active"
+                onclick="selectPayment('upi')">
+
+                📱
+
+                <div>
+
+                    <strong>
+                        UPI Payment
+                    </strong>
+
+                    <small>
+                        Pay instantly using UPI
+                    </small>
+
+                </div>
+
+            </button>
+
+
+            <button
+                id="counterPayment"
+                class="payment-option"
+                onclick="selectPayment('counter')">
+
+                💵
+
+                <div>
+
+                    <strong>
+                        Pay at Counter
+                    </strong>
+
+                    <small>
+                        Pay before your journey
+                    </small>
+
+                </div>
+
+            </button>
+
+
+
+            <button
+                class="confirm-button"
+                onclick="confirmTicket()">
+
+                🎫 Confirm & Book Ticket
+
+            </button>
+
+        </main>
+
+    </section>
+
+
+
+    <!-- ================= TICKETS ================= -->
+
+    <section id="tickets"
+        class="screen">
+
+        <header class="top-header">
+
+            <button class="menu-button"
+                onclick="toggleMenu()">
+                ☰
+            </button>
+
+            <div class="header-title">
+
+                <h2>My Tickets</h2>
+
+            </div>
+
+            <button class="profile-button">
+                👤
+            </button>
+
+        </header>
+
+
+        <main class="screen-content">
+
+            <div id="ticketsContainer">
+            </div>
+
+        </main>
+
+    </section>
+
+
+
+    <!-- ================= PROFILE ================= -->
+
+    <section id="profile"
+        class="screen">
+
+        <header class="top-header">
+
+            <button class="menu-button"
+                onclick="toggleMenu()">
+                ☰
+            </button>
+
+            <div class="header-title">
+
+                <h2>Profile</h2>
+
+            </div>
+
+            <button class="profile-button">
+                👤
+            </button>
+
+        </header>
+
+
+        <main class="screen-content">
+
+            <div class="profile-card">
+
+                <div class="profile-avatar">
+                    👤
+                </div>
+
+                <h2>
+                    Aapla Pravas User
+                </h2>
+
+                <p>
+                    Smart Pune Traveller
+                </p>
+
+            </div>
+
+        </main>
+
+    </section>
+
+
+
+    <!-- BOTTOM NAVIGATION -->
+
+    <nav class="bottom-navigation">
+
+        <button class="nav-item active"
+            onclick="showScreen('home')">
+
+            🏠
+
+            <span>Home</span>
+
+        </button>
+
+
+        <button class="nav-item"
+            onclick="showScreen('journey')">
+
+            🗺️
+
+            <span>Routes</span>
+
+        </button>
+
+
+        <button class="nav-item"
+            onclick="showScreen('tickets')">
+
+            🎫
+
+            <span>Tickets</span>
+
+        </button>
+
+
+        <button class="nav-item"
+            onclick="showScreen('profile')">
+
+            👤
+
+            <span>Profile</span>
+
+        </button>
+
+    </nav>
+
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
