@@ -1,6 +1,12 @@
-/* =========================================
+/* =========================================================
+   AAPLA PRAVAS - SCRIPT.JS
+   Smart Pune Public Transport Journey Planner
+========================================================= */
+
+
+/* =========================================================
    GLOBAL VARIABLES
-========================================= */
+========================================================= */
 
 let currentFrom = "";
 let currentTo = "";
@@ -9,193 +15,116 @@ let selectedMode = "auto";
 let selectedPreference = "fastest";
 
 let selectedRoute = null;
-
 let selectedPayment = "upi";
 
-
 let recentJourneys =
-    JSON.parse(
-        localStorage.getItem("recentJourneys")
-    ) || [];
-
+    JSON.parse(localStorage.getItem("recentJourneys")) || [];
 
 let bookedTickets =
-    JSON.parse(
-        localStorage.getItem("bookedTickets")
-    ) || [];
-
-
-
-/* =========================================
-   METRO ROUTE
-   SWARGATE → PCMC BHAVAN
-========================================= */
-
-const metroRoute = {
-
-    id: "metro-swargate-pcmc",
-
-    number: "Pune Metro Line",
-
-    name: "Pune Metro",
-
-    color: "Purple Corridor",
-
-    type: "metro",
-
-    stops: [
-
-        "Swargate",
-
-        "Mahatma Phule Mandai",
-
-        "Kasba Peth",
-
-        "District Court",
-
-        "Shivaji Nagar",
-
-        "Civil Court",
-
-        "Range Hills",
-
-        "Khadki",
-
-        "Bopodi",
-
-        "Dapodi",
-
-        "Phugewadi",
-
-        "Kasarwadi",
-
-        "Nashik Phata",
-
-        "Sant Tukaram Nagar",
-
-        "PCMC Bhavan"
-
-    ]
-
-};
-
-
-
-/* =========================================
-   PMPML BUS ROUTE 121
-========================================= */
-
-const busRoute121 = {
-
-    id: "bus-121",
-
-    number: "121",
-
-    name: "PMPML Bus Route 121",
-
-    type: "bus",
-
-    stops: [
-
-        "Ma.Na.Pa Main Bus Stand",
-
-        "Chhatrapati Shivaji Maharaj Putala",
-
-        "Lokmangal Office (Shivajinagar)",
-
-        "Patil Estate",
-
-        "Labour Office",
-
-        "Wakdewadi",
-
-        "Wakdewadi ST Stand",
-
-        "Poultry Farm Mumbai Road",
-
-        "Raja Bungalow",
-
-        "Khadki Post Office",
-
-        "Factory Hospital",
-
-        "Khadki Station",
-
-        "Gopi Chal",
-
-        "Bopodi",
-
-        "Dapodi",
-
-        "Phugewadi",
-
-        "Phugewadi Jakat Naka",
-
-        "Atlas COPCO India",
-
-        "Kasarwadi",
-
-        "Nashik Phata",
-
-        "CIRT Office",
-
-        "Bhosari Police Station",
-
-        "MIDC Bhosari",
-
-        "Philips Company",
-
-        "Landewadi",
-
-        "Shitalbaug",
-
-        "Century Enka Colony",
-
-        "Atlas Company",
-
-        "Bhosari Terminal"
-
-    ]
-
-};
-
-
-
-/* =========================================
-   ALL LOCATIONS FOR SUGGESTIONS
-========================================= */
-
-const locations = [
-
-    ...new Set([
-
-        ...metroRoute.stops,
-
-        ...busRoute121.stops,
-
-        "PCMC",
-
-        "PCMC Bhavan",
-
-        "Shivajinagar",
-
-        "Shivaji Nagar",
-
-        "Ma.Na.Pa",
-
-        "Mana Pa",
-
-        "Bhosari"
-
-    ])
-
+    JSON.parse(localStorage.getItem("bookedTickets")) || [];
+
+window.availableRoutes = [];
+
+
+/* =========================================================
+   PUNE METRO ROUTE
+   SWARGATE → PCMC
+========================================================= */
+
+const metroLines = [
+    {
+        id: "metro-line-1",
+        name: "Pune Metro",
+        color: "Purple Line",
+        mode: "metro",
+
+        stations: [
+            "Swargate",
+            "Mahatma Phule Mandai",
+            "Kasba Peth",
+            "District Court",
+            "Shivajinagar",
+            "Civil Court",
+            "Range Hills",
+            "Khadki",
+            "Bopodi",
+            "Dapodi",
+            "Phugewadi",
+            "Kasarwadi",
+            "Nashik Phata",
+            "Sant Tukaram Nagar",
+            "PCMC Bhavan"
+        ]
+    }
 ];
 
 
+/* =========================================================
+   PMPML BUS ROUTE 121
+========================================================= */
 
-/* =========================================
+const busRoutes = [
+    {
+        id: "bus-121",
+        number: "121",
+        name: "PMPML Bus Route 121",
+        mode: "bus",
+
+        stops: [
+            "Ma.Na.Pa Main Bus Stand",
+            "Chhatrapati Shivaji Maharaj Putala",
+            "Lokmangal Office",
+            "Shivajinagar",
+            "Patil Estate",
+            "Labour Office",
+            "Wakdewadi",
+            "Wakdewadi ST Stand",
+            "Poultry Farm Mumbai Road",
+            "Raja Bungalow",
+            "Khadki Post Office",
+            "Factory Hospital",
+            "Khadki Station",
+            "Gopi Chal",
+            "Bopodi",
+            "Dapodi",
+            "Phugewadi",
+            "Phugewadi Jakat Naka",
+            "Atlas COPCO India",
+            "Kasarwadi",
+            "Nashik Phata",
+            "CIRT Office",
+            "Bhosari Police Station",
+            "MIDC Bhosari",
+            "Philips Company",
+            "Landewadi",
+            "Shitalbaug",
+            "Century Enka Colony",
+            "Atlas Company",
+            "Bhosari Terminal"
+        ]
+    }
+];
+
+
+/* =========================================================
+   ALL LOCATIONS FOR SUGGESTIONS
+========================================================= */
+
+const locations = [...new Set([
+    ...metroLines.flatMap(line => line.stations),
+    ...busRoutes.flatMap(route => route.stops),
+
+    "PCMC",
+    "PCMC Bhavan",
+    "Ma.Na.Pa",
+    "Mana Pa",
+    "Bhosari Terminal"
+])].sort();
+
+
+/* =========================================================
    INITIALIZE APP
-========================================= */
+========================================================= */
 
 function initializeApp() {
 
@@ -204,62 +133,47 @@ function initializeApp() {
             .toISOString()
             .split("T")[0];
 
-
     const now =
         new Date()
             .toTimeString()
             .slice(0, 5);
 
-
     const dateInput =
-        document.getElementById(
-            "journeyDate"
-        );
-
+        document.getElementById("journeyDate");
 
     const timeInput =
-        document.getElementById(
-            "journeyTime"
-        );
-
+        document.getElementById("journeyTime");
 
     if (dateInput) {
-
         dateInput.value = today;
-
         dateInput.min = today;
-
     }
-
 
     if (timeInput) {
-
         timeInput.value = now;
-
     }
 
-
     renderRecentJourneys();
-
     renderTickets();
 
+    const splash =
+        document.getElementById("splash");
 
-    setTimeout(() => {
+    if (splash) {
 
-        const splash =
-            document.getElementById("splash");
-
-
-        if (splash) {
+        setTimeout(() => {
 
             splash.classList.remove("active");
 
-        }
+            showScreen("home");
 
+        }, 1800);
+
+    } else {
 
         showScreen("home");
 
-    }, 1800);
+    }
 
 }
 
@@ -270,16 +184,14 @@ document.addEventListener(
 );
 
 
-
-/* =========================================
+/* =========================================================
    SCREEN NAVIGATION
-========================================= */
+========================================================= */
 
 function showScreen(screenId) {
 
     const screens =
         document.querySelectorAll(".screen");
-
 
     screens.forEach(screen => {
 
@@ -287,10 +199,8 @@ function showScreen(screenId) {
 
     });
 
-
     const selectedScreen =
         document.getElementById(screenId);
-
 
     if (selectedScreen) {
 
@@ -298,29 +208,26 @@ function showScreen(screenId) {
 
     }
 
-
     updateBottomNavigation(screenId);
 
     closeMenu();
 
-
     window.scrollTo({
-
         top: 0,
-
         behavior: "smooth"
-
     });
 
 }
 
 
+/* =========================================================
+   BOTTOM NAVIGATION
+========================================================= */
 
 function updateBottomNavigation(screenId) {
 
     const navItems =
         document.querySelectorAll(".nav-item");
-
 
     navItems.forEach(item => {
 
@@ -328,19 +235,12 @@ function updateBottomNavigation(screenId) {
 
     });
 
-
     const mapping = {
-
         home: 0,
-
         journey: 1,
-
         tickets: 2,
-
         profile: 3
-
     };
-
 
     if (
         mapping[screenId] !== undefined &&
@@ -356,24 +256,27 @@ function updateBottomNavigation(screenId) {
 }
 
 
-
-/* =========================================
+/* =========================================================
    SIDE MENU
-========================================= */
+========================================================= */
 
 function toggleMenu() {
 
-    document
-        .getElementById("sideMenu")
-        .classList.toggle("active");
+    const sideMenu =
+        document.getElementById("sideMenu");
 
+    const overlay =
+        document.getElementById("menuOverlay");
 
-    document
-        .getElementById("menuOverlay")
-        .classList.toggle("active");
+    if (sideMenu) {
+        sideMenu.classList.toggle("active");
+    }
+
+    if (overlay) {
+        overlay.classList.toggle("active");
+    }
 
 }
-
 
 
 function closeMenu() {
@@ -381,50 +284,35 @@ function closeMenu() {
     const sideMenu =
         document.getElementById("sideMenu");
 
-
-    const menuOverlay =
+    const overlay =
         document.getElementById("menuOverlay");
 
-
     if (sideMenu) {
-
         sideMenu.classList.remove("active");
-
     }
 
-
-    if (menuOverlay) {
-
-        menuOverlay.classList.remove("active");
-
+    if (overlay) {
+        overlay.classList.remove("active");
     }
 
 }
 
 
-
-/* =========================================
+/* =========================================================
    LOCATION SUGGESTIONS
-========================================= */
+========================================================= */
 
 function showSuggestions(type) {
 
     const input =
         document.getElementById(type);
 
-
     const dropdown =
         document.getElementById(
             type + "Suggestions"
         );
 
-
-    if (!input || !dropdown) {
-
-        return;
-
-    }
-
+    if (!input || !dropdown) return;
 
     const searchText =
         input.value
@@ -443,15 +331,11 @@ function showSuggestions(type) {
     } else {
 
         filteredLocations =
-            locations
-                .filter(location =>
-
-                    location
-                        .toLowerCase()
-                        .includes(searchText)
-
-                )
-                .slice(0, 10);
+            locations.filter(location =>
+                location
+                    .toLowerCase()
+                    .includes(searchText)
+            ).slice(0, 10);
 
     }
 
@@ -459,47 +343,44 @@ function showSuggestions(type) {
     if (filteredLocations.length === 0) {
 
         dropdown.innerHTML = `
-
             <div class="no-suggestion">
-
-                📍 No matching location found
-
+                No location found
             </div>
-
         `;
 
     } else {
 
         dropdown.innerHTML =
-            filteredLocations
-                .map(location => `
+            filteredLocations.map(location => `
 
-                    <button
-                        class="suggestion-item"
-                        onclick="selectSuggestion('${location.replace(/'/g, "\\'")}', '${type}')"
-                    >
+                <button
+                    type="button"
+                    class="suggestion-item"
+                    onclick="selectSuggestion(
+                        '${location.replace(/'/g, "\\'")}',
+                        '${type}'
+                    )"
+                >
 
-                        <span class="suggestion-icon">
-                            📍
-                        </span>
+                    <span class="suggestion-icon">
+                        📍
+                    </span>
 
+                    <span class="suggestion-text">
 
-                        <span class="suggestion-text">
+                        <strong>
+                            ${location}
+                        </strong>
 
-                            <strong>
-                                ${location}
-                            </strong>
+                        <small>
+                            Pune Public Transport
+                        </small>
 
-                            <small>
-                                Pune Public Transport
-                            </small>
+                    </span>
 
-                        </span>
+                </button>
 
-                    </button>
-
-                `)
-                .join("");
+            `).join("");
 
     }
 
@@ -509,118 +390,98 @@ function showSuggestions(type) {
 }
 
 
+/* =========================================================
+   SELECT SUGGESTION
+========================================================= */
 
 function selectSuggestion(location, type) {
 
     const input =
         document.getElementById(type);
 
-
     const dropdown =
         document.getElementById(
             type + "Suggestions"
         );
 
-
-    input.value = location;
-
-
-    if (type === "from") {
-
-        currentFrom = location;
-
-    } else {
-
-        currentTo = location;
-
+    if (input) {
+        input.value = location;
     }
 
+    if (type === "from") {
+        currentFrom = location;
+    } else {
+        currentTo = location;
+    }
 
-    dropdown.classList.remove("show");
+    if (dropdown) {
+        dropdown.classList.remove("show");
+    }
 
 }
 
 
-
-/* =========================================
+/* =========================================================
    CLOSE SUGGESTIONS
-========================================= */
+========================================================= */
 
 document.addEventListener(
     "click",
     function (event) {
 
-        const fromInput =
-            document.getElementById("from");
+        ["from", "to"].forEach(type => {
 
+            const input =
+                document.getElementById(type);
 
-        const toInput =
-            document.getElementById("to");
+            const dropdown =
+                document.getElementById(
+                    type + "Suggestions"
+                );
 
+            if (!input || !dropdown) return;
 
-        const fromDropdown =
-            document.getElementById("fromSuggestions");
+            if (
+                !input.parentElement.contains(event.target)
+            ) {
 
+                dropdown.classList.remove("show");
 
-        const toDropdown =
-            document.getElementById("toSuggestions");
+            }
 
-
-        if (
-            fromInput &&
-            fromDropdown &&
-            !fromInput.parentElement.parentElement.contains(event.target)
-        ) {
-
-            fromDropdown.classList.remove("show");
-
-        }
-
-
-        if (
-            toInput &&
-            toDropdown &&
-            !toInput.parentElement.parentElement.contains(event.target)
-        ) {
-
-            toDropdown.classList.remove("show");
-
-        }
+        });
 
     }
 );
 
 
-
-/* =========================================
+/* =========================================================
    SWAP LOCATIONS
-========================================= */
+========================================================= */
 
 function swapLocations() {
 
     const fromInput =
         document.getElementById("from");
 
-
     const toInput =
         document.getElementById("to");
 
+    if (!fromInput || !toInput) return;
 
-    const temporaryValue =
+
+    const temp =
         fromInput.value;
-
 
     fromInput.value =
         toInput.value;
 
-
     toInput.value =
-        temporaryValue;
+        temp;
 
 
     currentFrom =
         fromInput.value;
-
 
     currentTo =
         toInput.value;
@@ -628,10 +489,9 @@ function swapLocations() {
 }
 
 
-
-/* =========================================
+/* =========================================================
    JOURNEY TIME
-========================================= */
+========================================================= */
 
 function setJourneyTime(option, button) {
 
@@ -643,8 +503,11 @@ function setJourneyTime(option, button) {
 
         });
 
+    if (button) {
 
-    button.classList.add("active");
+        button.classList.add("active");
+
+    }
 
 
     if (option === "now") {
@@ -652,36 +515,38 @@ function setJourneyTime(option, button) {
         const now =
             new Date();
 
+        const dateInput =
+            document.getElementById("journeyDate");
 
-        document.getElementById(
-            "journeyDate"
-        ).value =
-            now
-                .toISOString()
-                .split("T")[0];
+        const timeInput =
+            document.getElementById("journeyTime");
 
+        if (dateInput) {
 
-        document.getElementById(
-            "journeyTime"
-        ).value =
-            now
-                .toTimeString()
-                .slice(0, 5);
+            dateInput.value =
+                now.toISOString().split("T")[0];
+
+        }
+
+        if (timeInput) {
+
+            timeInput.value =
+                now.toTimeString().slice(0, 5);
+
+        }
 
     }
 
 }
 
 
-
-/* =========================================
+/* =========================================================
    TRANSPORT MODE
-========================================= */
+========================================================= */
 
 function selectMode(mode) {
 
     selectedMode = mode;
-
 
     document
         .querySelectorAll(".transport-option")
@@ -692,27 +557,31 @@ function selectMode(mode) {
         });
 
 
-    const selectedButton =
+    const button =
         document.getElementById(
             mode + "Mode"
         );
 
+    if (button) {
 
-    if (selectedButton) {
-
-        selectedButton.classList.add("active");
+        button.classList.add("active");
 
     }
 
 }
 
 
-
-/* =========================================
-   NORMALIZE LOCATION
-========================================= */
+/* =========================================================
+   NORMALIZE LOCATIONS
+========================================================= */
 
 function normalizeLocation(location) {
+
+    if (!location) return "";
+
+    const key =
+        location.trim().toLowerCase();
+
 
     const aliases = {
 
@@ -722,11 +591,11 @@ function normalizeLocation(location) {
         "pcmc bhavan":
             "PCMC Bhavan",
 
-        "shivajinagar":
-            "Shivaji Nagar",
-
         "shivaji nagar":
-            "Shivaji Nagar",
+            "Shivajinagar",
+
+        "shivajinagar":
+            "Shivajinagar",
 
         "mana pa":
             "Ma.Na.Pa Main Bus Stand",
@@ -743,40 +612,86 @@ function normalizeLocation(location) {
     };
 
 
-    const key =
-        location
-            .trim()
-            .toLowerCase();
-
-
     return aliases[key] ||
         location.trim();
 
 }
 
 
+/* =========================================================
+   MATCH STOP
+   Handles Shivajinagar / Lokmangal Office etc.
+========================================================= */
 
-/* =========================================
+function locationsMatch(stop, location) {
+
+    const stopText =
+        stop.toLowerCase().trim();
+
+    const locationText =
+        location.toLowerCase().trim();
+
+
+    if (stopText === locationText) {
+        return true;
+    }
+
+
+    if (
+        stopText.includes(locationText) ||
+        locationText.includes(stopText)
+    ) {
+        return true;
+    }
+
+
+    const aliases = {
+
+        "shivajinagar": [
+            "lokmangal office"
+        ],
+
+        "lokmangal office": [
+            "shivajinagar"
+        ],
+
+        "pcmc bhavan": [
+            "pcmc"
+        ]
+
+    };
+
+
+    if (
+        aliases[locationText] &&
+        aliases[locationText].some(
+            alias => stopText.includes(alias)
+        )
+    ) {
+        return true;
+    }
+
+
+    return false;
+
+}
+
+
+/* =========================================================
    GET STOPS BETWEEN
-========================================= */
+========================================================= */
 
 function getStopsBetween(stops, from, to) {
 
     const fromIndex =
         stops.findIndex(stop =>
-
-            stop.toLowerCase() ===
-            from.toLowerCase()
-
+            locationsMatch(stop, from)
         );
 
 
     const toIndex =
         stops.findIndex(stop =>
-
-            stop.toLowerCase() ===
-            to.toLowerCase()
-
+            locationsMatch(stop, to)
         );
 
 
@@ -810,94 +725,102 @@ function getStopsBetween(stops, from, to) {
 }
 
 
-
-/* =========================================
-   FIND METRO ROUTE
-========================================= */
+/* =========================================================
+   FIND METRO ROUTES
+========================================================= */
 
 function findMetroRoutes(from, to) {
 
-    const routeStops =
-        getStopsBetween(
-            metroRoute.stops,
-            from,
-            to
-        );
+    const routes = [];
 
 
-    if (!routeStops) {
+    metroLines.forEach(line => {
 
-        return [];
+        const routeStops =
+            getStopsBetween(
+                line.stations,
+                from,
+                to
+            );
 
-    }
 
+        if (routeStops) {
 
-    return [
+            routes.push({
 
-        {
+                type: "metro",
 
-            type: "metro",
+                title:
+                    line.name,
 
-            title: "Pune Metro",
+                subtitle:
+                    line.color,
 
-            subtitle:
-                "Swargate → PCMC Bhavan",
+                stops:
+                    routeStops
 
-            stops: routeStops
+            });
 
         }
 
-    ];
+    });
+
+
+    return routes;
 
 }
 
 
-
-/* =========================================
-   FIND BUS ROUTE 121
-========================================= */
+/* =========================================================
+   FIND BUS ROUTES
+========================================================= */
 
 function findBusRoutes(from, to) {
 
-    const routeStops =
-        getStopsBetween(
-            busRoute121.stops,
-            from,
-            to
-        );
+    const routes = [];
 
 
-    if (!routeStops) {
+    busRoutes.forEach(route => {
 
-        return [];
+        const routeStops =
+            getStopsBetween(
+                route.stops,
+                from,
+                to
+            );
 
-    }
 
+        if (routeStops) {
 
-    return [
+            routes.push({
 
-        {
+                type: "bus",
 
-            type: "bus",
+                title:
+                    "PMPML Bus " +
+                    route.number,
 
-            title: "PMPML Bus 121",
+                subtitle:
+                    route.name,
 
-            subtitle:
-                "PMPML Route 121",
+                stops:
+                    routeStops
 
-            stops: routeStops
+            });
 
         }
 
-    ];
+    });
+
+
+    return routes;
 
 }
 
 
-
-/* =========================================
-   CALCULATIONS
-========================================= */
+/* =========================================================
+   CALCULATE DURATION
+========================================================= */
 
 function estimateDuration(stopCount, mode) {
 
@@ -913,12 +836,15 @@ function estimateDuration(stopCount, mode) {
 
     return Math.max(
         8,
-        stopCount * 5
+        stopCount * 4
     );
 
 }
 
 
+/* =========================================================
+   CALCULATE FARE
+========================================================= */
 
 function estimateFare(stopCount, mode) {
 
@@ -934,12 +860,15 @@ function estimateFare(stopCount, mode) {
 
     return Math.min(
         50,
-        5 + stopCount * 2
+        8 + stopCount * 2
     );
 
 }
 
 
+/* =========================================================
+   CROWD PREDICTION
+========================================================= */
 
 function getCrowd(stopCount, mode) {
 
@@ -948,17 +877,19 @@ function getCrowd(stopCount, mode) {
 
     if (mode === "metro") {
 
-        percentage = Math.min(
-            85,
-            30 + stopCount * 4
-        );
+        percentage =
+            Math.min(
+                85,
+                30 + stopCount * 4
+            );
 
     } else {
 
-        percentage = Math.min(
-            90,
-            35 + stopCount * 3
-        );
+        percentage =
+            Math.min(
+                90,
+                35 + stopCount * 3
+            );
 
     }
 
@@ -970,15 +901,11 @@ function getCrowd(stopCount, mode) {
 
         level = "Low";
 
-    }
-
-    else if (percentage < 70) {
+    } else if (percentage < 70) {
 
         level = "Medium";
 
-    }
-
-    else {
+    } else {
 
         level = "High";
 
@@ -988,7 +915,6 @@ function getCrowd(stopCount, mode) {
     return {
 
         percentage,
-
         level
 
     };
@@ -996,6 +922,9 @@ function getCrowd(stopCount, mode) {
 }
 
 
+/* =========================================================
+   SIGNAL COUNT
+========================================================= */
 
 function getSignalCount(stopCount, mode) {
 
@@ -1014,10 +943,9 @@ function getSignalCount(stopCount, mode) {
 }
 
 
-
-/* =========================================
+/* =========================================================
    BUILD ROUTES
-========================================= */
+========================================================= */
 
 function buildRoutes(from, to) {
 
@@ -1029,10 +957,9 @@ function buildRoutes(from, to) {
         selectedMode === "metro"
     ) {
 
-        routes =
-            routes.concat(
-                findMetroRoutes(from, to)
-            );
+        routes = routes.concat(
+            findMetroRoutes(from, to)
+        );
 
     }
 
@@ -1042,10 +969,9 @@ function buildRoutes(from, to) {
         selectedMode === "bus"
     ) {
 
-        routes =
-            routes.concat(
-                findBusRoutes(from, to)
-            );
+        routes = routes.concat(
+            findBusRoutes(from, to)
+        );
 
     }
 
@@ -1110,26 +1036,26 @@ function buildRoutes(from, to) {
 }
 
 
-
-/* =========================================
+/* =========================================================
    PLAN JOURNEY
-========================================= */
+========================================================= */
 
 function planJourney() {
 
     const fromInput =
         document.getElementById("from");
 
-
     const toInput =
         document.getElementById("to");
+
+
+    if (!fromInput || !toInput) return;
 
 
     currentFrom =
         normalizeLocation(
             fromInput.value
         );
-
 
     currentTo =
         normalizeLocation(
@@ -1140,7 +1066,6 @@ function planJourney() {
     fromInput.value =
         currentFrom;
 
-
     toInput.value =
         currentTo;
 
@@ -1148,7 +1073,10 @@ function planJourney() {
     selectedRoute = null;
 
 
-    if (!currentFrom || !currentTo) {
+    if (
+        !currentFrom ||
+        !currentTo
+    ) {
 
         alert(
             "Please enter both starting location and destination."
@@ -1180,40 +1108,51 @@ function planJourney() {
         );
 
 
-    document.getElementById(
-        "routeFrom"
-    ).textContent =
-        currentFrom;
+    const routeFrom =
+        document.getElementById("routeFrom");
+
+    const routeTo =
+        document.getElementById("routeTo");
 
 
-    document.getElementById(
-        "routeTo"
-    ).textContent =
-        currentTo;
+    if (routeFrom) {
+        routeFrom.textContent = currentFrom;
+    }
+
+    if (routeTo) {
+        routeTo.textContent = currentTo;
+    }
 
 
     if (routes.length === 0) {
 
-        document.getElementById(
-            "routesContainer"
-        ).innerHTML = `
+        const container =
+            document.getElementById(
+                "routesContainer"
+            );
 
-            <div class="empty-state">
+        if (container) {
 
-                <div>🗺️</div>
+            container.innerHTML = `
 
-                <h2>
-                    No Direct Route Found
-                </h2>
+                <div class="empty-state">
 
-                <p>
-                    Try locations available on Pune Metro
-                    or PMPML Bus Route 121.
-                </p>
+                    <div>🗺️</div>
 
-            </div>
+                    <h2>
+                        No Direct Route Found
+                    </h2>
 
-        `;
+                    <p>
+                        Try locations available on
+                        Pune Metro or PMPML Route 121.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
 
 
         showScreen("journey");
@@ -1246,10 +1185,9 @@ function planJourney() {
 }
 
 
-
-/* =========================================
+/* =========================================================
    DISPLAY ROUTES
-========================================= */
+========================================================= */
 
 function displayRoutes(routes) {
 
@@ -1257,6 +1195,8 @@ function displayRoutes(routes) {
         document.getElementById(
             "routesContainer"
         );
+
+    if (!container) return;
 
 
     const sortedRoutes =
@@ -1316,13 +1256,10 @@ function displayRoutes(routes) {
                             class="select-route-button"
                             onclick="selectDynamicRoute(${route.id})"
                         >
-
                             Select
-
                         </button>
 
                     </div>
-
 
 
                     <div class="route-data">
@@ -1373,25 +1310,34 @@ function displayRoutes(routes) {
                     </div>
 
 
-
                     <div class="route-extra">
 
                         <span>
-
                             🚦 ${route.signals} Signals
-
                         </span>
 
 
                         <span>
 
                             ${route.type === "metro"
+
                                 ? "⚡ Fast & Comfortable"
-                                : "🚌 PMPML Route 121"}
+
+                                : "🚌 PMPML Route 121"
+
+                            }
 
                         </span>
 
                     </div>
+
+
+                    <button
+                        class="view-stops-button"
+                        onclick="selectDynamicRoute(${route.id}); openStations();"
+                    >
+                        📍 View Stops
+                    </button>
 
                 </div>
 
@@ -1402,10 +1348,9 @@ function displayRoutes(routes) {
 }
 
 
-
-/* =========================================
+/* =========================================================
    SORT ROUTES
-========================================= */
+========================================================= */
 
 function sortRoutes(routes, preference) {
 
@@ -1454,22 +1399,12 @@ function sortRoutes(routes, preference) {
                 if (
                     a.type === "metro" &&
                     b.type !== "metro"
-                ) {
-
-                    return -1;
-
-                }
-
+                ) return -1;
 
                 if (
                     b.type === "metro" &&
                     a.type !== "metro"
-                ) {
-
-                    return 1;
-
-                }
-
+                ) return 1;
 
                 return 0;
 
@@ -1484,10 +1419,9 @@ function sortRoutes(routes, preference) {
 }
 
 
-
-/* =========================================
+/* =========================================================
    FILTER
-========================================= */
+========================================================= */
 
 function applyFilter(preference, button) {
 
@@ -1504,7 +1438,11 @@ function applyFilter(preference, button) {
         });
 
 
-    button.classList.add("active");
+    if (button) {
+
+        button.classList.add("active");
+
+    }
 
 
     if (
@@ -1512,36 +1450,30 @@ function applyFilter(preference, button) {
         window.availableRoutes.length > 0
     ) {
 
-        const sorted =
-            sortRoutes(
-                window.availableRoutes,
-                preference
-            );
+        displayRoutes(
+            window.availableRoutes
+        );
 
+        updateRecommendation(
+            window.availableRoutes
+        );
 
-        displayRoutes(sorted);
-
-        updateRecommendation(sorted);
-
-        displayComparison(sorted);
+        displayComparison(
+            window.availableRoutes
+        );
 
     }
 
 }
 
 
-
-/* =========================================
+/* =========================================================
    RECOMMENDATION
-========================================= */
+========================================================= */
 
 function updateRecommendation(routes) {
 
-    if (!routes || routes.length === 0) {
-
-        return;
-
-    }
+    if (!routes || routes.length === 0) return;
 
 
     const bestRoute =
@@ -1551,77 +1483,91 @@ function updateRecommendation(routes) {
         )[0];
 
 
-    document.getElementById(
-        "recommendationTitle"
-    ).textContent =
-        bestRoute.title;
+    const title =
+        document.getElementById(
+            "recommendationTitle"
+        );
+
+    const description =
+        document.getElementById(
+            "recommendationDescription"
+        );
+
+    const time =
+        document.getElementById(
+            "recommendationTime"
+        );
+
+    const fare =
+        document.getElementById(
+            "recommendationFare"
+        );
+
+    const crowd =
+        document.getElementById(
+            "recommendationCrowd"
+        );
 
 
-    let description = "";
+    if (title) {
+
+        title.textContent =
+            bestRoute.title;
+
+    }
+
+
+    let text = "";
 
 
     if (selectedPreference === "fastest") {
 
-        description =
+        text =
             "This route gives you the shortest estimated travel time.";
 
-    }
+    } else if (selectedPreference === "cheapest") {
 
-
-    if (selectedPreference === "cheapest") {
-
-        description =
+        text =
             "This route offers the lowest estimated fare.";
 
-    }
+    } else if (selectedPreference === "crowd") {
 
-
-    if (selectedPreference === "crowd") {
-
-        description =
+        text =
             "This route is expected to have comparatively less crowd.";
 
-    }
+    } else if (selectedPreference === "eco") {
 
-
-    if (selectedPreference === "eco") {
-
-        description =
-            "Metro is recommended for a more eco-friendly journey.";
+        text =
+            "This route is recommended as a more eco-friendly option.";
 
     }
 
 
-    document.getElementById(
-        "recommendationDescription"
-    ).textContent =
-        description;
+    if (description) {
+        description.textContent = text;
+    }
 
+    if (time) {
+        time.textContent =
+            bestRoute.duration + " min";
+    }
 
-    document.getElementById(
-        "recommendationTime"
-    ).textContent =
-        bestRoute.duration + " min";
+    if (fare) {
+        fare.textContent =
+            "₹" + bestRoute.fare;
+    }
 
-
-    document.getElementById(
-        "recommendationFare"
-    ).textContent =
-        "₹" + bestRoute.fare;
-
-
-    document.getElementById(
-        "recommendationCrowd"
-    ).textContent =
-        bestRoute.crowd.level;
+    if (crowd) {
+        crowd.textContent =
+            bestRoute.crowd.level;
+    }
 
 }
 
 
-
-/* =========================================
+/* =========================================================
    COMPARISON
-========================================= */
+========================================================= */
 
 function displayComparison(routes) {
 
@@ -1629,6 +1575,8 @@ function displayComparison(routes) {
         document.getElementById(
             "comparisonContainer"
         );
+
+    if (!container) return;
 
 
     container.innerHTML =
@@ -1650,46 +1598,23 @@ function displayComparison(routes) {
                 <div class="comparison-grid">
 
                     <div>
-
                         <span>Stops</span>
-
-                        <strong>
-                            ${route.stopCount}
-                        </strong>
-
+                        <strong>${route.stopCount}</strong>
                     </div>
 
-
                     <div>
-
                         <span>Time</span>
-
-                        <strong>
-                            ${route.duration}m
-                        </strong>
-
+                        <strong>${route.duration}m</strong>
                     </div>
 
-
                     <div>
-
                         <span>Fare</span>
-
-                        <strong>
-                            ₹${route.fare}
-                        </strong>
-
+                        <strong>₹${route.fare}</strong>
                     </div>
 
-
                     <div>
-
                         <span>Crowd</span>
-
-                        <strong>
-                            ${route.crowd.level}
-                        </strong>
-
+                        <strong>${route.crowd.level}</strong>
                     </div>
 
                 </div>
@@ -1701,32 +1626,19 @@ function displayComparison(routes) {
 }
 
 
-
-/* =========================================
+/* =========================================================
    SELECT ROUTE
-========================================= */
+========================================================= */
 
 function selectDynamicRoute(routeId) {
 
-    if (!window.availableRoutes) {
-
-        return;
-
-    }
-
-
     selectedRoute =
         window.availableRoutes.find(
-            route =>
-                route.id === routeId
+            route => route.id === routeId
         );
 
 
-    if (!selectedRoute) {
-
-        return;
-
-    }
+    if (!selectedRoute) return;
 
 
     document
@@ -1742,7 +1654,6 @@ function selectDynamicRoute(routeId) {
         document.getElementById(
             "route-" + routeId
         );
-
 
     if (selectedCard) {
 
@@ -1765,32 +1676,20 @@ function selectDynamicRoute(routeId) {
                 🎫
             </div>
 
-            <div style="width:100%;">
+            <div>
 
                 <strong>
                     ${selectedRoute.title} Selected!
                 </strong>
 
                 <p>
-                    Your route is ready for ticket booking.
+                    Your route is ready for booking.
                 </p>
-
 
                 <button
                     onclick="openConfirmTicket()"
-                    style="
-                        margin-top:10px;
-                        padding:10px 18px;
-                        border-radius:20px;
-                        background:#123449;
-                        color:#d9ef18;
-                        font-size:11px;
-                        font-weight:800;
-                    "
                 >
-
                     🎫 Book Ticket
-
                 </button>
 
             </div>
@@ -1799,22 +1698,12 @@ function selectDynamicRoute(routeId) {
 
     }
 
-
-    journeyAlert.scrollIntoView({
-
-        behavior: "smooth",
-
-        block: "center"
-
-    });
-
 }
 
 
-
-/* =========================================
-   RESET ALERT
-========================================= */
+/* =========================================================
+   RESET JOURNEY ALERT
+========================================================= */
 
 function resetJourneyAlert() {
 
@@ -1823,38 +1712,35 @@ function resetJourneyAlert() {
             "journeyAlert"
         );
 
+    if (!journeyAlert) return;
 
-    if (journeyAlert) {
 
-        journeyAlert.innerHTML = `
+    journeyAlert.innerHTML = `
 
-            <div class="alert-icon">
-                🔔
-            </div>
+        <div class="alert-icon">
+            🔔
+        </div>
 
-            <div>
+        <div>
 
-                <strong>
-                    Journey Update
-                </strong>
+            <strong>
+                Journey Update
+            </strong>
 
-                <p>
-                    Select a route to book your ticket.
-                </p>
+            <p>
+                Select a route to book your ticket.
+            </p>
 
-            </div>
+        </div>
 
-        `;
-
-    }
+    `;
 
 }
 
 
-
-/* =========================================
+/* =========================================================
    ENSURE ROUTE SELECTED
-========================================= */
+========================================================= */
 
 function ensureRouteSelected() {
 
@@ -1868,45 +1754,31 @@ function ensureRouteSelected() {
 
     }
 
-
     return true;
 
 }
 
 
-
-/* =========================================
-   STATIONS
-========================================= */
+/* =========================================================
+   OPEN STATIONS / STOPS
+========================================================= */
 
 function openStations() {
 
     closeMenu();
 
-
-    if (!ensureRouteSelected()) {
-
-        return;
-
-    }
+    if (!ensureRouteSelected()) return;
 
 
-    document.getElementById(
-        "stationSummaryTitle"
-    ).textContent =
-        selectedRoute.title;
+    const title =
+        document.getElementById(
+            "stationSummaryTitle"
+        );
 
-
-    document.getElementById(
-        "stationSummaryText"
-    ).textContent =
-        currentFrom +
-        " → " +
-        currentTo +
-        " • " +
-        selectedRoute.stopCount +
-        " stops";
-
+    const text =
+        document.getElementById(
+            "stationSummaryText"
+        );
 
     const stationList =
         document.getElementById(
@@ -1914,29 +1786,49 @@ function openStations() {
         );
 
 
-    stationList.innerHTML =
-        selectedRoute.stops.map(
-            (stop, index) => `
+    if (title) {
 
-                <div class="stop-item">
+        title.textContent =
+            selectedRoute.title;
 
-                    <div class="stop-number">
+    }
 
-                        ${index + 1}
+
+    if (text) {
+
+        text.textContent =
+            currentFrom +
+            " → " +
+            currentTo +
+            " • " +
+            selectedRoute.stopCount +
+            " stops";
+
+    }
+
+
+    if (stationList) {
+
+        stationList.innerHTML =
+            selectedRoute.stops.map(
+                (stop, index) => `
+
+                    <div class="stop-item">
+
+                        <div class="stop-number">
+                            ${index + 1}
+                        </div>
+
+                        <strong>
+                            ${stop}
+                        </strong>
 
                     </div>
 
+                `
+            ).join("");
 
-                    <strong>
-
-                        ${stop}
-
-                    </strong>
-
-                </div>
-
-            `
-        ).join("");
+    }
 
 
     showScreen("stations");
@@ -1944,43 +1836,57 @@ function openStations() {
 }
 
 
-
-/* =========================================
-   LIVE TRACKING
-========================================= */
+/* =========================================================
+   LIVE TRACKING + ETA
+========================================================= */
 
 function openTracking() {
 
     closeMenu();
 
-
-    if (!ensureRouteSelected()) {
-
-        return;
-
-    }
+    if (!ensureRouteSelected()) return;
 
 
-    const vehicleIcon =
+    const icon =
         selectedRoute.type === "metro"
             ? "🚇"
             : "🚌";
 
 
-    document.getElementById(
-        "trackingVehicle"
-    ).textContent =
-        vehicleIcon +
-        " " +
-        selectedRoute.title;
+    const vehicle =
+        document.getElementById(
+            "trackingVehicle"
+        );
+
+    const route =
+        document.getElementById(
+            "trackingRoute"
+        );
+
+    const etaElement =
+        document.getElementById(
+            "trackingETA"
+        );
 
 
-    document.getElementById(
-        "trackingRoute"
-    ).textContent =
-        currentFrom +
-        " → " +
-        currentTo;
+    if (vehicle) {
+
+        vehicle.textContent =
+            icon +
+            " " +
+            selectedRoute.title;
+
+    }
+
+
+    if (route) {
+
+        route.textContent =
+            currentFrom +
+            " → " +
+            currentTo;
+
+    }
 
 
     const eta =
@@ -1992,10 +1898,12 @@ function openTracking() {
         );
 
 
-    document.getElementById(
-        "trackingETA"
-    ).textContent =
-        eta + " min";
+    if (etaElement) {
+
+        etaElement.textContent =
+            eta + " min";
+
+    }
 
 
     showScreen("tracking");
@@ -2003,56 +1911,78 @@ function openTracking() {
 }
 
 
-
-/* =========================================
+/* =========================================================
    CROWD PREDICTION
-========================================= */
+========================================================= */
 
 function openCrowdPrediction() {
 
     closeMenu();
 
-
-    if (!ensureRouteSelected()) {
-
-        return;
-
-    }
+    if (!ensureRouteSelected()) return;
 
 
     const percentage =
         selectedRoute.crowd.percentage;
 
-
     const level =
         selectedRoute.crowd.level;
 
 
-    document.getElementById(
-        "crowdPercentage"
-    ).textContent =
-        percentage + "%";
+    const percentageElement =
+        document.getElementById(
+            "crowdPercentage"
+        );
+
+    const details =
+        document.getElementById(
+            "crowdPercentageDetails"
+        );
+
+    const status =
+        document.getElementById(
+            "crowdStatus"
+        );
+
+    const routeName =
+        document.getElementById(
+            "crowdRouteName"
+        );
 
 
-    document.getElementById(
-        "crowdPercentageDetails"
-    ).textContent =
-        percentage +
-        "% - " +
-        level;
+    if (percentageElement) {
+
+        percentageElement.textContent =
+            percentage + "%";
+
+    }
 
 
-    document.getElementById(
-        "crowdStatus"
-    ).textContent =
-        level +
-        " Crowd Expected";
+    if (details) {
+
+        details.textContent =
+            percentage +
+            "% - " +
+            level;
+
+    }
 
 
-    document.getElementById(
-        "crowdRouteName"
-    ).textContent =
-        selectedRoute.title;
+    if (status) {
+
+        status.textContent =
+            level +
+            " Crowd Expected";
+
+    }
+
+
+    if (routeName) {
+
+        routeName.textContent =
+            selectedRoute.title;
+
+    }
 
 
     const circle =
@@ -2066,11 +1996,10 @@ function openCrowdPrediction() {
         const degrees =
             percentage * 3.6;
 
-
         circle.style.background =
             `conic-gradient(
-                #d9ef18 0deg ${degrees}deg,
-                #e8edef ${degrees}deg 360deg
+                var(--orange) 0deg ${degrees}deg,
+                #e8edf0 ${degrees}deg 360deg
             )`;
 
     }
@@ -2081,61 +2010,62 @@ function openCrowdPrediction() {
 }
 
 
-
-/* =========================================
-   OPEN TICKET CONFIRMATION
-========================================= */
+/* =========================================================
+   OPEN CONFIRM TICKET
+========================================================= */
 
 function openConfirmTicket() {
 
     closeMenu();
 
-
-    if (!ensureRouteSelected()) {
-
-        return;
-
-    }
+    if (!ensureRouteSelected()) return;
 
 
-    document.getElementById(
-        "confirmFrom"
-    ).textContent =
-        currentFrom;
+    const setText = (id, value) => {
+
+        const element =
+            document.getElementById(id);
+
+        if (element) {
+            element.textContent = value;
+        }
+
+    };
 
 
-    document.getElementById(
-        "confirmTo"
-    ).textContent =
-        currentTo;
+    setText(
+        "confirmFrom",
+        currentFrom
+    );
 
+    setText(
+        "confirmTo",
+        currentTo
+    );
 
-    document.getElementById(
-        "confirmMode"
-    ).textContent =
+    setText(
+        "confirmMode",
+
         selectedRoute.type === "metro"
             ? "Pune Metro"
-            : "PMPML Bus";
+            : "PMPML Bus"
+    );
 
+    setText(
+        "confirmVehicle",
+        selectedRoute.title
+    );
 
-    document.getElementById(
-        "confirmVehicle"
-    ).textContent =
-        selectedRoute.title;
-
-
-    document.getElementById(
-        "confirmTime"
-    ).textContent =
+    setText(
+        "confirmTime",
         selectedRoute.duration +
-        " minutes";
+        " minutes"
+    );
 
-
-    document.getElementById(
-        "confirmFare"
-    ).textContent =
-        "₹" +
-        selectedRoute.fare;
+    setText(
+        "confirmFare",
+        "₹" + selectedRoute.fare
+    );
 
 
     showScreen("confirmTicket");
@@ -2143,10 +2073,9 @@ function openConfirmTicket() {
 }
 
 
-
-/* =========================================
+/* =========================================================
    PAYMENT
-========================================= */
+========================================================= */
 
 function selectPayment(payment) {
 
@@ -2178,18 +2107,13 @@ function selectPayment(payment) {
 }
 
 
-
-/* =========================================
+/* =========================================================
    CONFIRM TICKET
-========================================= */
+========================================================= */
 
 function confirmTicket() {
 
-    if (!ensureRouteSelected()) {
-
-        return;
-
-    }
+    if (!ensureRouteSelected()) return;
 
 
     const journeyDate =
@@ -2206,54 +2130,40 @@ function confirmTicket() {
 
     const ticket = {
 
-        id: Date.now(),
-
+        id:
+            Date.now(),
 
         ticketNumber:
             "AP" +
             String(Date.now()).slice(-6),
 
-
         from:
             currentFrom,
-
 
         to:
             currentTo,
 
-
         route:
             selectedRoute.title,
-
 
         mode:
             selectedRoute.type,
 
-
         fare:
             selectedRoute.fare,
-
 
         time:
             selectedRoute.duration,
 
-
         payment:
             selectedPayment,
 
-
         journeyDate,
-
 
         journeyTime,
 
-
         status:
-            "Confirmed",
-
-
-        bookedAt:
-            new Date().toLocaleString()
+            "Confirmed"
 
     };
 
@@ -2275,11 +2185,11 @@ function confirmTicket() {
         "Ticket: " +
         ticket.ticketNumber +
         "\nJourney: " +
-        currentFrom +
+        ticket.from +
         " → " +
-        currentTo +
+        ticket.to +
         "\nFare: ₹" +
-        selectedRoute.fare
+        ticket.fare
     );
 
 
@@ -2288,10 +2198,9 @@ function confirmTicket() {
 }
 
 
-
-/* =========================================
+/* =========================================================
    RENDER TICKETS
-========================================= */
+========================================================= */
 
 function renderTickets() {
 
@@ -2300,12 +2209,7 @@ function renderTickets() {
             "ticketsContainer"
         );
 
-
-    if (!container) {
-
-        return;
-
-    }
+    if (!container) return;
 
 
     if (bookedTickets.length === 0) {
@@ -2341,13 +2245,10 @@ function renderTickets() {
                 <div class="ticket-title">
 
                     <span>
-
                         ${ticket.mode === "metro"
                             ? "🚇"
                             : "🚌"}
-
                     </span>
-
 
                     <div>
 
@@ -2364,92 +2265,47 @@ function renderTickets() {
                 </div>
 
 
-
                 <div class="ticket-info">
 
                     <p>
-
-                        <strong>
-                            Ticket ID
-                        </strong>
-
-                        <span>
-                            ${ticket.ticketNumber}
-                        </span>
-
+                        <strong>Ticket ID</strong>
+                        <span>${ticket.ticketNumber}</span>
                     </p>
 
-
                     <p>
-
-                        <strong>
-                            Journey
-                        </strong>
+                        <strong>Journey</strong>
 
                         <span>
                             ${ticket.from}
                             →
                             ${ticket.to}
                         </span>
-
                     </p>
 
-
                     <p>
-
-                        <strong>
-                            Date
-                        </strong>
-
-                        <span>
-                            ${ticket.journeyDate || "Today"}
-                        </span>
-
+                        <strong>Date</strong>
+                        <span>${ticket.journeyDate || "Today"}</span>
                     </p>
 
-
                     <p>
-
-                        <strong>
-                            Journey Time
-                        </strong>
-
-                        <span>
-                            ${ticket.journeyTime || "-"}
-                        </span>
-
+                        <strong>Time</strong>
+                        <span>${ticket.journeyTime || "-"}</span>
                     </p>
 
-
                     <p>
-
-                        <strong>
-                            Travel Time
-                        </strong>
-
-                        <span>
-                            ${ticket.time} minutes
-                        </span>
-
+                        <strong>Travel Time</strong>
+                        <span>${ticket.time} minutes</span>
                     </p>
 
-
                     <p>
-
-                        <strong>
-                            Payment
-                        </strong>
+                        <strong>Payment</strong>
 
                         <span>
-
                             ${ticket.payment === "upi"
                                 ? "UPI Payment"
                                 : "Pay at Counter"}
-
                         </span>
-
                     </p>
-
 
                     <p class="ticket-fare">
 
@@ -2466,19 +2322,8 @@ function renderTickets() {
 
                     <button
                         onclick="deleteTicket(${ticket.id})"
-                        style="
-                            width:100%;
-                            margin-top:15px;
-                            padding:11px;
-                            border-radius:10px;
-                            background:#fff0f0;
-                            color:#e63946;
-                            font-weight:700;
-                        "
                     >
-
                         Cancel Ticket
-
                     </button>
 
                 </div>
@@ -2490,10 +2335,9 @@ function renderTickets() {
 }
 
 
-
-/* =========================================
+/* =========================================================
    DELETE TICKET
-========================================= */
+========================================================= */
 
 function deleteTicket(ticketId) {
 
@@ -2503,11 +2347,7 @@ function deleteTicket(ticketId) {
         );
 
 
-    if (!confirmDelete) {
-
-        return;
-
-    }
+    if (!confirmDelete) return;
 
 
     bookedTickets =
@@ -2533,10 +2373,9 @@ function deleteTicket(ticketId) {
 }
 
 
-
-/* =========================================
+/* =========================================================
    RECENT JOURNEYS
-========================================= */
+========================================================= */
 
 function addRecentJourney(from, to) {
 
@@ -2551,11 +2390,8 @@ function addRecentJourney(from, to) {
     if (!exists) {
 
         recentJourneys.unshift({
-
             from,
-
             to
-
         });
 
     }
@@ -2576,6 +2412,9 @@ function addRecentJourney(from, to) {
 }
 
 
+/* =========================================================
+   RENDER RECENT JOURNEYS
+========================================================= */
 
 function renderRecentJourneys() {
 
@@ -2584,12 +2423,7 @@ function renderRecentJourneys() {
             "recentJourneys"
         );
 
-
-    if (!container) {
-
-        return;
-
-    }
+    if (!container) return;
 
 
     if (recentJourneys.length === 0) {
@@ -2636,9 +2470,7 @@ function renderRecentJourneys() {
                     <button
                         onclick="useRecentJourney(${index})"
                     >
-
                         Use
-
                     </button>
 
                 </div>
@@ -2649,40 +2481,158 @@ function renderRecentJourneys() {
 }
 
 
+/* =========================================================
+   USE RECENT JOURNEY
+========================================================= */
 
 function useRecentJourney(index) {
 
     const journey =
         recentJourneys[index];
 
+    if (!journey) return;
 
-    if (!journey) {
 
-        return;
+    const fromInput =
+        document.getElementById("from");
+
+    const toInput =
+        document.getElementById("to");
+
+
+    if (fromInput) {
+
+        fromInput.value =
+            journey.from;
 
     }
 
 
-    document.getElementById(
-        "from"
-    ).value =
-        journey.from;
+    if (toInput) {
 
+        toInput.value =
+            journey.to;
 
-    document.getElementById(
-        "to"
-    ).value =
-        journey.to;
+    }
 
 
     currentFrom =
         journey.from;
-
 
     currentTo =
         journey.to;
 
 
     planJourney();
+
+}
+
+
+/* =========================================================
+   FILTER DROPDOWN SUPPORT
+========================================================= */
+
+function toggleFilterDropdown() {
+
+    const dropdown =
+        document.getElementById(
+            "filterDropdown"
+        );
+
+    if (dropdown) {
+
+        dropdown.classList.toggle("show");
+
+    }
+
+}
+
+
+/* =========================================================
+   CHECKBOX FILTER SUPPORT
+========================================================= */
+
+function applyCheckboxFilters() {
+
+    const fastest =
+        document.getElementById("fastestFilter");
+
+    const cheapest =
+        document.getElementById("cheapestFilter");
+
+    const crowd =
+        document.getElementById("crowdFilter");
+
+    const eco =
+        document.getElementById("ecoFilter");
+
+
+    if (
+        fastest &&
+        fastest.checked
+    ) {
+
+        selectedPreference = "fastest";
+
+    }
+
+    else if (
+        cheapest &&
+        cheapest.checked
+    ) {
+
+        selectedPreference = "cheapest";
+
+    }
+
+    else if (
+        crowd &&
+        crowd.checked
+    ) {
+
+        selectedPreference = "crowd";
+
+    }
+
+    else if (
+        eco &&
+        eco.checked
+    ) {
+
+        selectedPreference = "eco";
+
+    }
+
+
+    if (
+        window.availableRoutes &&
+        window.availableRoutes.length > 0
+    ) {
+
+        displayRoutes(
+            window.availableRoutes
+        );
+
+        updateRecommendation(
+            window.availableRoutes
+        );
+
+        displayComparison(
+            window.availableRoutes
+        );
+
+    }
+
+
+    const dropdown =
+        document.getElementById(
+            "filterDropdown"
+        );
+
+    if (dropdown) {
+
+        dropdown.classList.remove("show");
+
+    }
 
 }
