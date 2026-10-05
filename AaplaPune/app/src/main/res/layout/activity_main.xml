@@ -1,0 +1,1087 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F6F7"
+    android:forceDarkAllowed="false">
+
+    <!-- =====================================================
+         SPLASH SCREEN
+    ====================================================== -->
+
+    <LinearLayout
+        android:id="@+id/splashScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="25dp"
+        android:background="#082333"
+        android:forceDarkAllowed="false">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/logoCard"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_marginBottom="28dp"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="20dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <ImageView
+                android:id="@+id/appLogo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/app_logo"
+                android:contentDescription="Aapla Pune Logo"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/aaplaText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aapla"
+                android:textColor="#D9EF18"
+                android:textSize="42sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.04"/>
+
+            <TextView
+                android:id="@+id/puneText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Pune"
+                android:textColor="#FFFFFF"
+                android:textSize="42sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.04"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ek Pune"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  |  "
+                android:textColor="#D9EF18"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ek Pravas"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/splashSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Smart Pune Public Transport"
+            android:textColor="#E8EEF1"
+            android:textSize="15sp"
+            android:layout_marginTop="12dp"/>
+
+        <ProgressBar
+            android:id="@+id/splashProgress"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="45dp"
+            android:indeterminate="true"
+            android:indeterminateTint="#D9EF18"/>
+
+        <TextView
+            android:id="@+id/loadingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Planning your smart journey..."
+            android:textColor="#D9E3E8"
+            android:textSize="12sp"
+            android:layout_marginTop="15dp"/>
+
+    </LinearLayout>
+
+
+    <!-- =====================================================
+         MAIN APPLICATION
+    ====================================================== -->
+
+    <LinearLayout
+        android:id="@+id/mainApp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="#F4F6F7"
+        android:forceDarkAllowed="false">
+
+
+        <!-- =================================================
+             TOP HEADER
+        ================================================== -->
+
+        <LinearLayout
+            android:id="@+id/topHeader"
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:background="#082333">
+
+            <TextView
+                android:id="@+id/menuButton"
+                android:layout_width="55dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="☰"
+                android:textColor="#D9EF18"
+                android:textSize="28sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AAPLA PUNE"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PMPML × PUNE METRO"
+                    android:textColor="#D9EF18"
+                    android:textSize="10sp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="🚌"
+                android:textSize="27sp"/>
+
+        </LinearLayout>
+
+
+        <!-- =================================================
+             MAIN SCROLL
+        ================================================== -->
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:clipToPadding="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <!-- =================================================
+                     HERO SECTION
+                ================================================== -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="25dp"
+                    android:paddingEnd="25dp"
+                    android:paddingTop="35dp"
+                    android:paddingBottom="75dp"
+                    android:background="#082333">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SMART PUBLIC TRANSPORT"
+                        android:textColor="#D9EF18"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.15"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pune's Journey,"
+                        android:textColor="#FFFFFF"
+                        android:textSize="35sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Made Simple."
+                        android:textColor="#D9EF18"
+                        android:textSize="35sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Plan your journey using PMPML buses and Pune Metro from one smart platform."
+                        android:textColor="#C7D4DA"
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="5dp"
+                        android:layout_marginTop="8dp"/>
+
+                </LinearLayout>
+
+
+                <!-- =================================================
+                     JOURNEY CARD
+                ================================================== -->
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginTop="-45dp"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="15dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="22dp"
+                        android:background="#FFFFFF">
+
+
+                        <!-- JOURNEY TITLE -->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="20dp">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="PLAN YOUR JOURNEY"
+                                    android:textColor="#71808A"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    android:letterSpacing="0.1"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Where are you going?"
+                                    android:textColor="#082333"
+                                    android:textSize="25sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="3dp"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:gravity="center"
+                                android:text="🗺️"
+                                android:textSize="30sp"/>
+
+                        </LinearLayout>
+
+
+                        <!-- =================================================
+                             FROM
+                        ================================================== -->
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="FROM"
+                            android:textColor="#71808A"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="10dp"
+                            android:background="#F4F6F7"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:layout_width="30dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="📍"
+                                android:textSize="18sp"/>
+
+                            <EditText
+                                android:id="@+id/fromInput"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:hint="Enter starting location"
+                                android:textSize="14sp"
+                                android:textColor="#082333"
+                                android:textColorHint="#A7B0B5"
+                                android:background="@android:color/transparent"
+                                android:singleLine="true"
+                                android:maxLines="1"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="5dp"
+                                android:inputType="text"
+                                android:imeOptions="actionNext"/>
+
+                        </LinearLayout>
+
+
+                        <!-- =================================================
+                             FROM SUGGESTIONS
+                        ================================================== -->
+
+                        <LinearLayout
+                            android:id="@+id/fromSuggestions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:background="#FFFFFF"
+                            android:elevation="8dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"/>
+
+
+                        <!-- =================================================
+                             SWAP
+                        ================================================== -->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_weight="1"
+                                android:background="#D8E0E4"/>
+
+                            <TextView
+                                android:id="@+id/swapButton"
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:gravity="center"
+                                android:text="⇅"
+                                android:textColor="#FFFFFF"
+                                android:textSize="22sp"
+                                android:background="#082333"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackgroundBorderless"/>
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_weight="1"
+                                android:background="#D8E0E4"/>
+
+                        </LinearLayout>
+
+
+                        <!-- =================================================
+                             TO
+                        ================================================== -->
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="TO"
+                            android:textColor="#71808A"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="10dp"
+                            android:background="#F4F6F7"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:layout_width="30dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="📍"
+                                android:textSize="18sp"/>
+
+                            <EditText
+                                android:id="@+id/toInput"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:hint="Enter destination"
+                                android:textSize="14sp"
+                                android:textColor="#082333"
+                                android:textColorHint="#A7B0B5"
+                                android:background="@android:color/transparent"
+                                android:singleLine="true"
+                                android:maxLines="1"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="5dp"
+                                android:inputType="text"
+                                android:imeOptions="actionDone"/>
+
+                        </LinearLayout>
+
+
+                        <!-- =================================================
+                             TO SUGGESTIONS
+                        ================================================== -->
+
+                        <LinearLayout
+                            android:id="@+id/toSuggestions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:background="#FFFFFF"
+                            android:elevation="8dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"/>
+
+
+                        <!-- =================================================
+                             TRANSPORT
+                        ================================================== -->
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Choose Transport"
+                            android:textColor="#082333"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="22dp"
+                            android:layout_marginBottom="10dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <Button
+                                android:id="@+id/autoMode"
+                                android:layout_width="0dp"
+                                android:layout_height="52dp"
+                                android:layout_weight="1"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:text="✨ Smart Auto"
+                                android:textSize="10sp"
+                                android:textColor="#082333"
+                                android:gravity="center"
+                                android:singleLine="true"
+                                android:backgroundTint="#D9EF18"/>
+
+                            <Button
+                                android:id="@+id/metroMode"
+                                android:layout_width="0dp"
+                                android:layout_height="52dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="5dp"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:text="🚇 Metro"
+                                android:textSize="10sp"
+                                android:textColor="#082333"
+                                android:gravity="center"
+                                android:singleLine="true"
+                                android:backgroundTint="#F4F6F7"/>
+
+                            <Button
+                                android:id="@+id/busMode"
+                                android:layout_width="0dp"
+                                android:layout_height="52dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="5dp"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:text="🚌 PMPML Bus"
+                                android:textSize="10sp"
+                                android:textColor="#082333"
+                                android:gravity="center"
+                                android:singleLine="true"
+                                android:backgroundTint="#F4F6F7"/>
+
+                        </LinearLayout>
+
+
+                        <!-- =================================================
+                             PLAN BUTTON
+                        ================================================== -->
+
+                        <Button
+                            android:id="@+id/planJourneyButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="58dp"
+                            android:layout_marginTop="22dp"
+                            android:minHeight="0dp"
+                            android:text="PLAN MY JOURNEY       →"
+                            android:textColor="#082333"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            android:backgroundTint="#D9EF18"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <!-- =================================================
+                     FEATURES TITLE
+                ================================================== -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Smart Journey Features"
+                    android:textColor="#082333"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginBottom="10dp"/>
+
+
+                <!-- =================================================
+                     FEATURE 1
+                ================================================== -->
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginBottom="15dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="18dp"
+                        android:background="#FFFFFF">
+
+                        <TextView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:gravity="center"
+                            android:text="🚇"
+                            android:textSize="25sp"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="🚇 + 🚌 Multi-Modal Travel"
+                                android:textColor="#082333"
+                                android:textSize="15sp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Change transport during your journey"
+                                android:textColor="#71808A"
+                                android:textSize="12sp"
+                                android:layout_marginTop="5dp"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <!-- =================================================
+                     FEATURE 2
+                ================================================== -->
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginBottom="15dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="18dp"
+                        android:background="#FFFFFF">
+
+                        <TextView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:gravity="center"
+                            android:text="📍"
+                            android:textSize="25sp"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="📍 Live Journey Tracking"
+                                android:textColor="#082333"
+                                android:textSize="15sp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Track your bus and metro journey"
+                                android:textColor="#71808A"
+                                android:textSize="12sp"
+                                android:layout_marginTop="5dp"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <!-- =================================================
+                     FEATURE 3
+                ================================================== -->
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginBottom="30dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="18dp"
+                        android:background="#FFFFFF">
+
+                        <TextView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:gravity="center"
+                            android:text="👥"
+                            android:textSize="25sp"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="👥 Crowd Prediction"
+                                android:textColor="#082333"
+                                android:textSize="15sp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Choose less crowded routes"
+                                android:textColor="#71808A"
+                                android:textSize="12sp"
+                                android:layout_marginTop="5dp"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+        <!-- =====================================================
+             BOTTOM NAVIGATION
+        ====================================================== -->
+
+        <LinearLayout
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="#FFFFFF"
+            android:elevation="12dp">
+
+            <TextView
+                android:id="@+id/bottomHome"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="⌂&#10;Home"
+                android:textColor="#082333"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"/>
+
+            <TextView
+                android:id="@+id/bottomJourney"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="🗺&#10;Journey"
+                android:textColor="#71808A"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"/>
+
+            <TextView
+                android:id="@+id/bottomTickets"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="🎫&#10;Tickets"
+                android:textColor="#71808A"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"/>
+
+            <TextView
+                android:id="@+id/bottomProfile"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="👤&#10;Profile"
+                android:textColor="#71808A"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <!-- =====================================================
+         MENU OVERLAY
+    ====================================================== -->
+
+    <View
+        android:id="@+id/menuOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"/>
+
+
+    <!-- =====================================================
+         SIDE MENU
+    ====================================================== -->
+
+    <LinearLayout
+        android:id="@+id/sideMenu"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:elevation="30dp"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:forceDarkAllowed="false">
+
+
+        <!-- MENU HEADER -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:padding="25dp"
+            android:background="#082333">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AAPLA PUNE"
+                android:textColor="#D9EF18"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ek Pune | Ek Pravas"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:layout_marginTop="6dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PMPML × PUNE METRO"
+                android:textColor="#C7D4DA"
+                android:textSize="10sp"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+
+        <!-- CLOSE -->
+
+        <TextView
+            android:id="@+id/closeMenu"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:paddingStart="25dp"
+            android:text="✕   Close Menu"
+            android:textColor="#71808A"
+            android:textSize="13sp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+
+        <!-- HOME -->
+
+        <TextView
+            android:id="@+id/menuHome"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="25dp"
+            android:text="⌂   Home"
+            android:textColor="#082333"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"/>
+
+
+        <!-- JOURNEY -->
+
+        <TextView
+            android:id="@+id/menuJourney"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="25dp"
+            android:text="🗺   My Journey"
+            android:textColor="#082333"
+            android:textSize="15sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"/>
+
+
+        <!-- STOPS -->
+
+        <TextView
+            android:id="@+id/menuStops"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="25dp"
+            android:text="📍   Route Stops"
+            android:textColor="#082333"
+            android:textSize="15sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"/>
+
+
+        <!-- TRACKING -->
+
+        <TextView
+            android:id="@+id/menuTracking"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="25dp"
+            android:text="🚌   Live Tracking"
+            android:textColor="#082333"
+            android:textSize="15sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"/>
+
+
+        <!-- CROWD -->
+
+        <TextView
+            android:id="@+id/menuCrowd"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="25dp"
+            android:text="👥   Crowd Prediction"
+            android:textColor="#082333"
+            android:textSize="15sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"/>
+
+
+        <!-- TICKETS -->
+
+        <TextView
+            android:id="@+id/menuTickets"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="25dp"
+            android:text="🎟   My Tickets"
+            android:textColor="#082333"
+            android:textSize="15sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"/>
+
+
+        <!-- PROFILE -->
+
+        <TextView
+            android:id="@+id/menuProfile"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:gravity="center_vertical"
+            android:paddingStart="25dp"
+            android:text="👤   Profile"
+            android:textColor="#082333"
+            android:textSize="15sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"/>
+
+
+        <!-- DIVIDER -->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="#E1E6E9"/>
+
+
+        <!-- FOOTER -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="25dp"
+            android:text="Smart Pune Public Transport"
+            android:textColor="#71808A"
+            android:textSize="11sp"/>
+
+    </LinearLayout>
+
+</FrameLayout>

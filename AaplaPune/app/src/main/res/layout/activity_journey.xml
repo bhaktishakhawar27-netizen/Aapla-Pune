@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F4F6F7"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/journeyBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:text="←  Back"
+        android:textColor="#082333"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Journey"
+        android:textColor="#082333"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your recent and planned trips"
+        android:textColor="#71808A"
+        android:textSize="14sp"
+        android:layout_marginTop="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="22dp"
+        android:layout_marginTop="25dp"
+        android:elevation="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RECENT JOURNEY"
+            android:textColor="#71808A"
+            android:textSize="11sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No journeys yet"
+            android:textColor="#082333"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Plan your first journey from the Home screen."
+            android:textColor="#71808A"
+            android:textSize="14sp"
+            android:layout_marginTop="7dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

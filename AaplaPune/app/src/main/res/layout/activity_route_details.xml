@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F6F7">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- BACK -->
+
+        <TextView
+            android:id="@+id/routeBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:text="←  Back"
+            android:textColor="#082333"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"/>
+
+
+        <!-- TITLE -->
+
+        <TextView
+            android:id="@+id/routeTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Metro Route"
+            android:textColor="#082333"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"/>
+
+
+        <TextView
+            android:id="@+id/transportType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="METRO"
+            android:textColor="#71808A"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
+
+
+        <!-- JOURNEY -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="22dp"
+            android:layout_marginTop="22dp"
+            android:elevation="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JOURNEY"
+                android:textColor="#71808A"
+                android:textSize="11sp"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:id="@+id/routeFrom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="From"
+                android:textColor="#082333"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:layout_marginTop="14dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="↓"
+                android:textColor="#D9EF18"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginTop="3dp"/>
+
+
+            <TextView
+                android:id="@+id/routeTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Destination"
+                android:textColor="#082333"
+                android:textSize="19sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+
+        <!-- ROUTE DETAILS -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ROUTE DETAILS"
+            android:textColor="#71808A"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:layout_marginTop="28dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ROUTE STOPS"
+            android:textColor="#71808A"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:layout_marginTop="28dp"/>
+
+        <LinearLayout
+            android:id="@+id/stopsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="25dp"
+            android:elevation="3dp"/>
+
+            </LinearLayout>
+
+</ScrollView>
